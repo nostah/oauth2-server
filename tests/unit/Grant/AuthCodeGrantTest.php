@@ -546,7 +546,19 @@ class AuthCodeGrantTest extends \PHPUnit_Framework_TestCase
         $server->issueAccessToken();
     }
 
-    public function testCompleteFlow()
+    public function testCompleteFlowGET()
+    {
+        $_GET = [
+            'grant_type'    => 'authorization_code',
+            'client_id'     =>  'testapp',
+            'client_secret' =>  'foobar',
+            'redirect_uri'  =>  'http://foo/bar',
+            'code'          =>  'foo',
+        ];
+        $this->completeFlow();
+    }
+
+    public function testCompleteFlowPOST()
     {
         $_POST = [
             'grant_type'    => 'authorization_code',
@@ -555,7 +567,10 @@ class AuthCodeGrantTest extends \PHPUnit_Framework_TestCase
             'redirect_uri'  =>  'http://foo/bar',
             'code'          =>  'foo',
         ];
+        $this->completeFlow();
+    }
 
+    private function completeFlow() {
         $server = new AuthorizationServer();
         $grant = new AuthCodeGrant();
 
